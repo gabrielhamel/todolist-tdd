@@ -1,0 +1,83 @@
+{
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "simple-import-sort", "sort-keys-fix"],
+  "ignorePatterns": [
+    "next.config.js"
+  ],
+  "rules": {
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@next/next/no-html-link-for-pages": "error",
+    "react/jsx-curly-brace-presence": [
+      "error",
+      { "props": "never", "children": "never" }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "sort-keys-fix/sort-keys-fix": "error",
+    "@typescript-eslint/no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["*.tsx", "*.ts", "*.js"],
+            "message":
+            "usage of the file extension [\"*.tsx\", \"*.ts\", \"*.js\"] in import or export is not allowed."
+          }
+        ]
+      }
+    ]
+  },
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "overrides": [
+    // override "simple-import-sort" config
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              /*
+              Order:
+                - Packages `react` related packages.
+                - Internal packages.
+                - Side effect imports.
+                - Parent imports. Put `..` last.
+                - Other relative imports. Put same-folder imports and `.` last.
+                - Style imports.
+              */
+              [
+                "^react",
+                "^@?\\w",
+                "^(@|components)(/.*|$)",
+                "^\\u0000", "^\\.\\.(?!/?$)",
+                "^\\.\\./?$",
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$",
+                "^.+\\.?(css)$"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
